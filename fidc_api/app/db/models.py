@@ -33,3 +33,5 @@ class Operation(db.Model):
     total_value = db.Column(db.Float, nullable=True)
     tax_paid = db.Column(db.Float, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    job_id = db.Column(db.String, db.ForeignKey("processing_jobs.job_id"))  # Correção: adiciona relação com job
+    fidc_id = db.Column(db.String, db.ForeignKey("fidc_cash.fidc_id"), nullable=True)  # Opcional: se quiser filtrar por FIDC na exportação

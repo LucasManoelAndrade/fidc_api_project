@@ -6,10 +6,10 @@ from flask import Blueprint, request, jsonify
 from flasgger.utils import swag_from
 from app.db.models import ProcessingJob, Operation
 from app.db import db
-from app.schemas.schemas import OperationSchema, ExportOperationsSchema  # Importa schemas centralizados
+from app.schemas.schemas import ProcessOperationsSchema, ExportOperationsSchema  # Corrigido import
 from marshmallow import ValidationError
 from app.workers.tasks import process_operations_job
-from app.utils.s3_client import get_s3_client  # Importa o client centralizado
+from app.utils.s3_client import get_s3_client
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -31,8 +31,7 @@ operations_bp = Blueprint("operations", __name__)
                         "id": "op_001",
                         "asset_code": "PETR4",
                         "operation_type": "BUY",
-                        "quantity": 1000,
-                        "operation_date": "2024-09-01"
+                        "quantity": 1000
                     }
                 ]
             }
@@ -45,7 +44,7 @@ operations_bp = Blueprint("operations", __name__)
 def process_operations():
     data = request.get_json()
     try:
-        validated = OperationSchema().load(data)
+        validated = ProcessOperationsSchema().load(data)  # Corrigido schema
     except ValidationError as err:
         logger.warning("Payload inválido para processamento de operações", extra={"error": err.messages})
         return jsonify({"error": "Invalid input", "messages": err.messages}), 400
@@ -65,7 +64,6 @@ def process_operations():
             quantity=op_data["quantity"],
             job_id=job.job_id,
             status="PENDING"
-            # outros campos opcionais podem ser adicionados aqui
         )
         db.session.add(op)
     db.session.commit()

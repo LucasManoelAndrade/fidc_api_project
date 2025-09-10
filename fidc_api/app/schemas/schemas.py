@@ -22,6 +22,10 @@ class OperationSchema(Schema):
     tax_paid = fields.Float(allow_none=True)
     created_at = fields.DateTime()
 
+class ProcessOperationsSchema(Schema):
+    fidc_id = fields.Str(required=True)
+    operations = fields.List(fields.Nested(OperationSchema), required=True)
+
 class ExportOperationsSchema(Schema):
     fidc_id = fields.Str(required=True)
     start_date = fields.Date(required=True)

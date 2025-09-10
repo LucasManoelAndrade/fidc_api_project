@@ -2,8 +2,6 @@ from flask import Blueprint, jsonify
 from flasgger.utils import swag_from
 from app.db.models import ProcessingJob, Operation
 from app.db import db
-from app.schemas.schemas import ProcessingJobSchema  # Importa schema centralizado
-from marshmallow import ValidationError
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -39,13 +37,7 @@ jobs_bp = Blueprint("jobs", __name__)
     }
 })
 def job_status(job_id):
-    # Validação do parâmetro job_id usando Marshmallow schema centralizado
-    try:
-        ProcessingJobSchema().load({"job_id": job_id})
-    except ValidationError as err:
-        logger.warning("Job ID inválido na consulta de status", extra={"job_id": job_id})
-        return jsonify({"error": "Invalid job_id", "messages": err.messages}), 400
-
+    # Busca o job pelo ID
     job = db.session.get(ProcessingJob, job_id)
     if not job:
         logger.warning("Job não encontrado na consulta de status", extra={"job_id": job_id})
@@ -56,7 +48,6 @@ def job_status(job_id):
     processed = db.session.query(Operation).filter_by(job_id=job_id, status="PROCESSED").count()
     failed = db.session.query(Operation).filter_by(job_id=job_id, status="FAILED").count()
 
-    # Estimativa de conclusão (exemplo: None, ou calcule se desejar)
     estimated_completion = job.completed_at.isoformat() if job.completed_at else None
 
     logger.info("Consulta de status do job realizada com sucesso", extra={
