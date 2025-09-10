@@ -127,22 +127,41 @@ set PYTHONPATH=fidc_api && pytest
 ## 📁 Estrutura do Projeto
 
 ```
-fidc_api/
-  app/
-    db/
-    routes/
-    schemas/
-    utils/
-    workers/
-  main.py
-tests/
-  test_health.py
-  test_jobs.py
-  test_operations.py
-docker-compose.yml
-Dockerfile
-.env.example
-README.md
+fidc_project/
+├── fidc_api/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── db/
+│   │   │   ├── __init__.py
+│   │   │   └── models.py
+│   │   ├── routes/
+│   │   │   ├── __init__.py
+│   │   │   ├── operations.py
+│   │   │   ├── jobs.py
+│   │   │   └── health.py
+│   │   ├── schemas/
+│   │   │   └── schemas.py
+│   │   ├── services/
+│   │   │   └── asset_service.py
+|   |   |   └── fidc_service.py
+|   |   |   └── job_service.py
+|   |   |   └── operation_service.py
+│   │   ├── utils/
+│   │   │   ├── logger.py
+│   │   │   └── s3_client.py
+│   │   └── workers/
+│   │       └── tasks.py
+│   └── main.py
+│   │
+│   └── Dockerfile
+│
+├── tests/
+│   └── test_core.py
+├── .env.example
+├── .gitignore
+├── docker-compose.yml
+├── README.md
+└── postman_collection.json
 ```
 
 ---
