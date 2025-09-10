@@ -6,9 +6,8 @@ from flask import Blueprint, request, jsonify
 from flasgger.utils import swag_from
 from app.db.models import ProcessingJob, Operation
 from app.db import db
-from app.schemas.schemas import ProcessOperationsSchema, ExportOperationsSchema  # Corrigido import
+from app.schemas.schemas import ProcessOperationsSchema, ExportOperationsSchema
 from marshmallow import ValidationError
-from app.workers.tasks import process_operations_job
 from app.utils.s3_client import get_s3_client
 from app.utils.logger import get_logger
 
@@ -42,9 +41,10 @@ operations_bp = Blueprint("operations", __name__)
     }
 })
 def process_operations():
+    from app.workers.tasks import process_operations_job
     data = request.get_json()
     try:
-        validated = ProcessOperationsSchema().load(data)  # Corrigido schema
+        validated = ProcessOperationsSchema().load(data)
     except ValidationError as err:
         logger.warning("Payload inválido para processamento de operações", extra={"error": err.messages})
         return jsonify({"error": "Invalid input", "messages": err.messages}), 400
@@ -85,8 +85,8 @@ def process_operations():
         "schema": {
             "example": {
                 "fidc_id": "FIDC001",
-                "start_date": "2024-09-01",
-                "end_date": "2024-09-30"
+                "start_date": "2025-09-01",
+                "end_date": "2025-09-30"
             }
         }
     }],

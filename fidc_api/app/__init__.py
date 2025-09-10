@@ -3,14 +3,14 @@ from flask import Flask
 from flasgger import Swagger
 
 from app.db import db
-from app.db import models  # Garante que os modelos sejam registrados
+from app.db import models
 from app.routes import api_bp
 from app.routes.health import health_bp
 
 def create_app():
     app = Flask(__name__)
 
-    # Config DB via .env (sem valores padrão hardcoded)
+    # Config DB via .env
     db_user = os.getenv("DB_USER")
     db_pass = os.getenv("DB_PASS")
     db_name = os.getenv("DB_NAME")

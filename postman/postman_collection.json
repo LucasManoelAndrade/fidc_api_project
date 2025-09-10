@@ -1,0 +1,72 @@
+{
+  "info": {
+    "name": "FIDC API",
+    "description": "Coleção para testar os principais endpoints da FIDC API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Processar Operações",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fidc_id\": \"FIDC001\",\n  \"operations\": [\n    {\n      \"id\": \"op_301\",\n      \"asset_code\": \"PETR4\",\n      \"operation_type\": \"BUY\",\n      \"quantity\": 1000\n    },\n    {\n      \"id\": \"op_302\",\n      \"asset_code\": \"VALE3\",\n      \"operation_type\": \"SELL\",\n      \"quantity\": 500\n    }\n  ]\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/operations/process",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["operations", "process"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Consultar Status do Job",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5000/jobs/{{job_id}}/status",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["jobs", "{{job_id}}", "status"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Exportar Operações",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fidc_id\": \"FIDC001\",\n  \"start_date\": \"2025-09-01\",\n  \"end_date\": \"2025-09-30\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/operations/export",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5000",
+          "path": ["operations", "export"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
