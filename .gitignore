@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+
+
+# VSCode settings
+.vscode/
+
+# Pytest cache
+.pytest_cache/
+.cache/
+
+# Database files
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# Minio data (caso use localmente)
+minio_data/
+
+# Docker
+*.pid
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled C extensions
+*.so
+
+# Test output
+htmlcov/
+coverage.xml
+*.cover
+
+# Ignore secrets
+secrets.json
+
+# Ignore migrations (se não versionar)
+migrations/
